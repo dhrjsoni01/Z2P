@@ -1,0 +1,128 @@
+'use strict';
+
+const artist = require('../schema/artist');
+const album = require('../schema/album');
+const track = require('../schema/track');
+
+exports.createArtist = (name, des, year_active) => {
+
+    return new Promise((resolve, reject) => {
+        const newArtist = new artist({
+            name: name,
+            description: des,
+            year_active: year_active
+        });
+        newArtist.save()
+            .then((Artist) => resolve({ status: 201,
+                artist:Artist,
+                 message: 'Artist created Sucessfully !' 
+                }))
+            .catch((err) => {
+                if (err.code == 11000) {
+                    reject({
+                        status: 409, message: 'Artist Already Registered !' });
+                } else {
+                    reject({ status: 500, message: 'Internal Server Error !' + err });
+                }
+            });
+    });
+}
+
+exports.getArtists= () =>{
+
+    return new Promise((resolve, reject) => {
+        artist.find()
+            .then(Artists => {
+                if (users.length == 0) {
+                    reject({ status: 404, message: 'No Artist Found' });
+                } else {
+                    resolve({ status: 200, artists:Artists });
+                }
+            })
+            .catch(err => {
+                reject({ status: 500, message: 'Internal Server Error !' })
+            });
+    });
+}
+
+exports.addAlbum = (artist_id,name,release_date)=>{
+    return new Promise((resolve, reject) => {
+        const newAlbum = new album({
+            artist_id: artist_id,
+            name: name,
+            release_date: release_date
+        });
+        newAlbum.save()
+            .then((Album) => resolve({
+                status: 201,
+                album: Album,
+                message: 'Album created Sucessfully !'
+            }))
+            .catch((err) => {
+                if (err.code == 11000) {
+                    reject({
+                        status: 409, message: 'Album Already Registered !'
+                    });
+                } else {
+                    reject({ status: 500, message: 'Internal Server Error !' + err });
+                }
+            });
+    });
+}
+
+exports.getAlbums= (artist_id)=>{
+    return new Promise((resolve, reject) => {
+        album.find({artist_id:artist_id})
+            .then(Albums => {
+                if (users.length == 0) {
+                    reject({ status: 404, message: 'No Artist Found' });
+                } else {
+                    resolve({ status: 200, albums: Albums });
+                }
+            })
+            .catch(err => {
+                reject({ status: 500, message: 'Internal Server Error !' })
+            });
+    });
+}
+
+exports.addTrack = (album_id, name, play_time:) => {
+    return new Promise((resolve, reject) => {
+        const newTrack = new track({
+            album_id: album_id,
+            name: name,
+            play_time: play_time
+        });
+        newTrack.save()
+            .then((Track) => resolve({
+                status: 201,
+                track: Track,
+                message: 'track created Sucessfully !'
+            }))
+            .catch((err) => {
+                if (err.code == 11000) {
+                    reject({
+                        status: 409, message: 'track Already Registered !'
+                    });
+                } else {
+                    reject({ status: 500, message: 'Internal Server Error !' + err });
+                }
+            });
+    });
+}
+
+exports.getAlbums = (album_id) => {
+    return new Promise((resolve, reject) => {
+        album.find({ ablum_id: album_id })
+            .then(Tracks => {
+                if (users.length == 0) {
+                    reject({ status: 404, message: 'No Track Found' });
+                } else {
+                    resolve({ status: 200, tracks: Tracks });
+                }
+            })
+            .catch(err => {
+                reject({ status: 500, message: 'Internal Server Error !' })
+            });
+    });
+}
