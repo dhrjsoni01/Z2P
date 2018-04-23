@@ -86,7 +86,7 @@ exports.getAlbums= (artist_id)=>{
     });
 }
 
-exports.addTrack = (album_id, name, play_time:) => {
+exports.addTrack = (album_id, name, play_time) => {
     return new Promise((resolve, reject) => {
         const newTrack = new track({
             album_id: album_id,
@@ -111,7 +111,7 @@ exports.addTrack = (album_id, name, play_time:) => {
     });
 }
 
-exports.getAlbums = (album_id) => {
+exports.getTrack = (album_id) => {
     return new Promise((resolve, reject) => {
         album.find({ ablum_id: album_id })
             .then(Tracks => {

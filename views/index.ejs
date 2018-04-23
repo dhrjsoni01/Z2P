@@ -1,0 +1,44 @@
+
+<% include ./partials/header %>
+<body class="container">
+    <main>
+        <div class="jumbotron">
+        <% if(Artists){ %>
+            <h1>List of Artist</h1>
+            <!-- //for artist -->
+            <% Artists.forEach(function(Artist) { %>  
+            <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#<%= Artist.id %>" aria-expanded="false"
+                aria-controls="collapseExample">
+                <%= Artist.name %>
+            </button> 
+            <div class="collapse" id="<%= Artist.id %>">
+                <div class="card card-body">
+                    <p><%= Artist.description %></p>
+                    <p>
+                    Year Active <%= Artist.year_active %></p>
+                    <a class="btn btn-primary" type="button"
+                    href = "/track/<%= Artist.id %>" formmethod="GET" >
+                        view albums
+                    </a>
+                </div>
+            </div>
+            <br/>
+            <% }); %>
+        <% } %>
+        </div>
+    </main>
+</body>
+<% include ./partials/footer %>
+<!-- <script>
+                function showResult() {
+
+                    var xmlHttp = null;
+                    xmlHttp = new XMLHttpRequest();
+                    xmlHttp.open("GET", "/track/", true);
+                    xmlHttp.send(null);
+                    return xmlHttp.responseText;
+                }
+            </script>
+            <button class="btn btn-primary" type="button" onclick="showResult()" > to templating using EJS</button>
+
+        <input type="text" id="search" name="search" placeholder="Search" class="form-control col-md-7 col-xs-12" onkeyup="showResult(this.value)"> -->
