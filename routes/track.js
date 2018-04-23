@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
                 console.log("invalid requestdue to insufficiant data in request");
                 res.status(400).json({ message: 'Invalid Request !' });
         } else {
-                main.addAlbum(id, name, time)
+                main.addTrack(id, name, time)
                         .then((result) => {
                                 res.status(result.status).json({ message: result.message })
                         })

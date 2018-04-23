@@ -31,9 +31,10 @@ exports.createArtist = (name, des, year_active) => {
 exports.getArtists= () =>{
 
     return new Promise((resolve, reject) => {
-        artist.find()
+        artist.find({})
             .then(Artists => {
-                if (users.length == 0) {
+                if (Artists.length == 0) {
+
                     reject({ status: 404, message: 'No Artist Found' });
                 } else {
                     resolve({ status: 200, artists:Artists });
@@ -74,10 +75,28 @@ exports.getAlbums= (artist_id)=>{
     return new Promise((resolve, reject) => {
         album.find({artist_id:artist_id})
             .then(Albums => {
-                if (users.length == 0) {
+                if (Albums.length == 0) {
                     reject({ status: 404, message: 'No Artist Found' });
                 } else {
                     resolve({ status: 200, albums: Albums });
+                }
+            })
+            .catch(err => {
+                reject({ status: 500, message: 'Internal Server Error !' })
+            });
+    });
+}
+exports.getTrack = (id) => {
+    console.log(id);
+
+    return new Promise((resolve, reject) => {
+        track.find({album_id:id})
+            .then(Tracks => {
+                console.log(Tracks);
+                if (Tracks.length == 0) {
+                    reject({ status: 404, message: 'No Track Found' });
+                } else {
+                    resolve({ status: 200, tracks: Tracks });
                 }
             })
             .catch(err => {
@@ -111,18 +130,3 @@ exports.addTrack = (album_id, name, play_time) => {
     });
 }
 
-exports.getTrack = (album_id) => {
-    return new Promise((resolve, reject) => {
-        album.find({ ablum_id: album_id })
-            .then(Tracks => {
-                if (users.length == 0) {
-                    reject({ status: 404, message: 'No Track Found' });
-                } else {
-                    resolve({ status: 200, tracks: Tracks });
-                }
-            })
-            .catch(err => {
-                reject({ status: 500, message: 'Internal Server Error !' })
-            });
-    });
-}
