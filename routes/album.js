@@ -28,6 +28,19 @@ router.post('/', (req, res) => {
     }
 });
 router.put('/:id', (req, res) => {
-    
+    const id = req.params.id;
+    const name = req.body.name;
+    const date = req.body.date;
+
+    if (!id || !name || !date) {
+        console.log("invalid requestdue to insufficiant data in request");
+        res.status(400).json({ message: 'Invalid Request !' });
+    } else {
+        main.updateAlbum(id, name, date)
+            .then((result) => {
+                res.status(result.status).json({ message: result.message })
+            })
+            .catch((err) => res.status(err.status).json({ message: err.message }));
+    }
 });
 module.exports = router;

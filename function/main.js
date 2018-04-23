@@ -28,6 +28,23 @@ exports.createArtist = (name, des, year_active) => {
     });
 }
 
+exports.updateArtist = (id, name, des, year_active) => {
+    return new Promise((resolve, reject) => {
+        artist.update({ _id: id }, {
+            $set: {
+                name: name,
+                description: des,
+                year_active: year_active
+            }
+        })
+            .then(user => resolve({ status: 200, message: 'artist updated' }))
+            .catch(err => {
+                reject({ status: 500, message: 'Internal Server Error !' })
+                console.log(err);
+            })
+    });
+}
+
 exports.getArtists= () =>{
 
     return new Promise((resolve, reject) => {
@@ -70,7 +87,21 @@ exports.addAlbum = (artist_id,name,release_date)=>{
             });
     });
 }
-
+exports.updateAlbum = (id, name, release_date) => {
+    return new Promise((resolve, reject) => {
+        album.update({ _id: id }, {
+            $set: {
+                name: name,
+                release_date: release_date
+            }
+        })
+            .then(user => resolve({ status: 200, message: 'album updated' }))
+            .catch(err => {
+                reject({ status: 500, message: 'Internal Server Error !' })
+                console.log(err);
+            })
+    });
+}
 exports.getAlbums= (artist_id)=>{
     return new Promise((resolve, reject) => {
         album.find({artist_id:artist_id})
@@ -102,6 +133,22 @@ exports.getTrack = (id) => {
             .catch(err => {
                 reject({ status: 500, message: 'Internal Server Error !' })
             });
+    });
+}
+
+exports.updateTrack = (id, name, play_time)=>{
+    return new Promise((resolve, reject) => {
+        track.update({ _id: id }, {
+            $set: {
+                name: name,
+                play_time: play_time
+            } 
+        })
+            .then(user => resolve({ status: 200, message: 'Track updated' }))
+            .catch(err => {
+                reject({ status: 500, message: 'Internal Server Error !' })
+                console.log(err);
+            })
     });
 }
 
